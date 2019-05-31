@@ -1,1 +1,1 @@
-# swampup-java-backend-service
+# spring-boot-app
