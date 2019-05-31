@@ -1,14 +1,24 @@
-ARG registry
-FROM $registry/openjdk:11-jdk
+#Download image from artifactory
+ARG REGISTRY
+FROM openjdk:11-jdk
+#FROM $REGISTRY/openjdk:11-jdk
 
+WORKDIR /app
+
+#Define ARG Again -ARG variables declared before the first FROM need to be declered again
+ARG REGISTRY
 MAINTAINER Elad Hirsch
 
-VOLUME /tmp
-#download jar + npm packages from artifactory
-## Add Spring Boot app.jar to Container
-#COPY --from=0 "/springbootvuejs/backend/target/backend-0.0.1-SNAPSHOT.jar" app.jar
-#
-#ENV JAVA_OPTS=""
+# Download artifacts from Artifactory
+RUN curl $REGISTRY/gradle-release/aaron-santos/lwjgl/3.0.0b87/lwjgl-3.0.0b87.jar --output server.jar
+RUN curl $REGISTRY/npm-dev-local/sample-node-couchdb/-/sample-node-couchdb-0.0.0.tgz --output client.tgz
 
-# Fire up our Spring Boot app by default
-#ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app.jar" ]
+#Extract vue app
+RUN tar -xzf client.tgz && rm client.tgz
+
+# Set JAVA OPTS + Static file location
+ENV STATIC_FILE_LOCATION="/app/package/targe/dist"
+ENV JAVA_OPTS=""
+
+# Fire up our Spring Boot app
+ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Dspring.profiles.active=remote -Djava.security.egd=file:/dev/./urandom -jar /app.jar" ]
