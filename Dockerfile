@@ -10,15 +10,15 @@ ARG REGISTRY
 MAINTAINER Elad Hirsch
 
 # Download artifacts from Artifactory
-RUN curl $REGISTRY/gradle-release/aaron-santos/lwjgl/3.0.0b87/lwjgl-3.0.0b87.jar --output server.jar
-RUN curl $REGISTRY/npm-dev-local/sample-node-couchdb/-/sample-node-couchdb-0.0.0.tgz --output client.tgz
+RUN curl $REGISTRY/libs-release-local/com/jfrog/backend/1.0.0/backend-1.0.0.jar --output server.jar
+RUN curl $REGISTRY/npm-libs-local/frontend/-/frontend-3.0.0.tgz --output client.tgz
 
 #Extract vue app
 RUN tar -xzf client.tgz && rm client.tgz
 
 # Set JAVA OPTS + Static file location
-ENV STATIC_FILE_LOCATION="/app/package/targe/dist"
+ENV STATIC_FILE_LOCATION="/app/package/target/dist"
 ENV JAVA_OPTS=""
 
 # Fire up our Spring Boot app
-ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Dspring.profiles.active=remote -Djava.security.egd=file:/dev/./urandom -jar /app.jar" ]
+ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Dspring.profiles.active=remote -Djava.security.egd=file:/dev/./urandom -jar /app/server.jar" ]
