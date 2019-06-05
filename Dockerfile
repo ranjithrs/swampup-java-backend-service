@@ -18,6 +18,7 @@ RUN tar -xzf client.tgz && rm client.tgz
 
 # Set JAVA OPTS + Static file location
 ENV STATIC_FILE_LOCATION="/app/package/target/dist"
+ENV GO_SERVICE="127.0.0.1"
 ENV JAVA_OPTS=""
 
 # Fire up our Spring Boot app
