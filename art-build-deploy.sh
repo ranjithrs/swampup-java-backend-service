@@ -2,7 +2,10 @@
 
 usage() {
     echo "Deploy a maven-based build to Artifactory using Artifactory maven plugin"
-    echo "Usage: $0 buildnumber"
+    echo "Usage: $1 buildnumber"
+    echo "Usage: $2 mavenSettingsFile"
+
+
     exit 1
 }
 
@@ -11,7 +14,12 @@ if [ -z "$1" ]; then
 fi
 
 buildnumber="$1"
-mavenSettingsFile="settings.xml"
+
+if [ "$2" ]; then
+    mavenSettingsFile=$2
+else
+    mavenSettingsFile="settings.xml"
+fi
 
 if [ ! -f "$mavenSettingsFile" ]; then
     echo "ERROR: file $mavenSettingsFile does not exist!"
