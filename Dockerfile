@@ -17,8 +17,7 @@ RUN curl $REGISTRY/npm-libs-local/frontend/-/frontend-3.0.0.tgz --output client.
 RUN tar -xzf client.tgz && rm client.tgz
 
 # Set JAVA OPTS + Static file location
-ENV STATIC_FILE_LOCATION="/app/package/target/dist"
-ENV GO_SERVICE="127.0.0.1"
+ENV STATIC_FILE_LOCATION="/app/package/target/dist/"
 ENV JAVA_OPTS=""
 
 # Fire up our Spring Boot app
