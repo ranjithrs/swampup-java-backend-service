@@ -28,7 +28,6 @@ public class BackendController {
 
     private final UserRepository userRepository;
 
-    @Autowired
     private final Environment environment;
 
     @Autowired
@@ -36,6 +35,8 @@ public class BackendController {
         this.restTemplate = restTemplate;
         this.userRepository = userRepository;
         this.environment = environment;
+
+        LOG.info("go service = " + environment.getProperty("GO_SERVICE"));
     }
 
     @RequestMapping(path = "/hello")
