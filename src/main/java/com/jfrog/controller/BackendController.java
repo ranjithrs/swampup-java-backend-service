@@ -35,8 +35,6 @@ public class BackendController {
         this.restTemplate = restTemplate;
         this.userRepository = userRepository;
         this.environment = environment;
-
-        LOG.info("go service = " + environment.getProperty("GO_SERVICE"));
     }
 
     @RequestMapping(path = "/hello")
@@ -74,8 +72,8 @@ public class BackendController {
 
     @GetMapping(path="/service")
     public @ResponseBody String callGoService() {
-        ResponseEntity<String> responseEntity = restTemplate.exchange("http://" + environment.getProperty("GO_SERVICE")
-                        + ":3000/", HttpMethod.GET, null, new ParameterizedTypeReference<String>() {});
+        ResponseEntity<String> responseEntity = restTemplate.exchange("http://" + environment.getProperty("GO_SERVICE_ADDRESS")
+                + ":3000/", HttpMethod.GET, null, new ParameterizedTypeReference<String>() {});
 
         return responseEntity.getBody();
     }
